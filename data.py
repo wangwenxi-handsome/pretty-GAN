@@ -10,7 +10,7 @@ def precessor(file, format="jpeg"):
         pic = tf.image.decode_jpeg(pic)
     else:
         raise ValueError("format is not supported")
-    return pic
+    return pic / 255
 
 
 def build_dataset(
@@ -22,7 +22,7 @@ def build_dataset(
     file = [os.path.join(path, i) for i in file]
     
     dataset = tf.data.Dataset.from_tensor_slices(file)
-    dataset = dataset.map(precessor, num_parallel_calls=2).batch(batch_size).prefetch(1)
+    dataset = dataset.map(precessor, num_parallel_calls=1).batch(batch_size).prefetch(1)
     return dataset
         
 

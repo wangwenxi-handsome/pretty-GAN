@@ -4,8 +4,9 @@ from model import GAN
 
 
 data_path = "dataset/xinggan_face"
-batch_size = 32
-lr = 0.01
+batch_size = 16
+lr = 0.0001
+epoch = 5
 
 
 if __name__ == "__main__":
@@ -14,12 +15,11 @@ if __name__ == "__main__":
     model = GAN()
     
     # compile
-    opt = tf.keras.optimizers.Adam(lr = lr, )
     model.compile(
-        optimizer = opt,
+        d_optimizer = tf.keras.optimizers.Adam(learning_rate = lr),
+        g_optimizer = tf.keras.optimizers.Adam(learning_rate = lr),
+        loss_fn = tf.keras.losses.BinaryCrossentropy(from_logits=True),
     )
     
     # fit
-    model.fit(dataset, )
-    
-    
+    model.fit(dataset, epoch = 5)
